@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using KModkit;
 using Newtonsoft.Json;
@@ -90,17 +90,8 @@ public class SimpleModuleScript : MonoBehaviour {
 				}
 			};
 		}
-		Invoke ("RandomAndStages", 1);
-	}
-
-	void  RandomAndStages()
-	{
-		StagesTotes = info.GetSolvableModuleNames ().Where (a => !ignoredModules.Contains (a)).ToList ().Count;
-
 		stageRand = Random.Range (1, StagesTotes);
 		StageRandNum = Random.Range (1, 100);
-
-		Debug.LogFormat ("Random stage will be {0} and total stages will be {1}", stageRand, StagesTotes);
 	}
 
 	void FixedUpdate()

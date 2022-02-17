@@ -11,10 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: -548183353, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: mission 1
   m_EditorClassIdentifier: 
-  DisplayName: Focus
-  Description: When you dont concentrate on the boss...
+  DisplayName: Focus master
+  Description: When you do concentrate on the bosses...
   GeneratorSetting:
-    TimeLimit: 450
+    TimeLimit: 600
     NumStrikes: 3
     TimeBeforeNeedyActivation: 90
     FrontFaceOnly: 0
@@ -25,7 +25,7 @@ MonoBehaviour:
       ComponentTypes: 0d0000000e0000000f000000
       SpecialComponentType: 0
       ModTypes: []
-    - Count: 5
+    - Count: 4
       AllowedSources: 2
       ComponentTypes: 02000000
       SpecialComponentType: 0
@@ -35,6 +35,12 @@ MonoBehaviour:
       ComponentTypes: 04000000
       SpecialComponentType: 0
       ModTypes: []
+    - Count: 1
+      AllowedSources: 2
+      ComponentTypes: 
+      SpecialComponentType: 0
+      ModTypes:
+      - SimpleBossNot
     - Count: 1
       AllowedSources: 2
       ComponentTypes: 

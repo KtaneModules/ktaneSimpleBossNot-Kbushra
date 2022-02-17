@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Name: WorkshopItem
   m_EditorClassIdentifier: 
   WorkshopPublishedFileID: 0
-  Title: Remember Simple
-  Tags: []
+  Title: Remembern't Simple
+  Tags:
+  - Regular Module
+  - Missions

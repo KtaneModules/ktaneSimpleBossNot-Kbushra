@@ -11,11 +11,8 @@ MonoBehaviour:
   m_Script: {fileID: -548183353, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: mission
   m_EditorClassIdentifier: 
-  DisplayName: Bossy
-  Description: My first boss, my first mission in this weird boss mission pack boss
-    mission pack boss mission pack boss mission pack boss mission pack boss mission
-    pack boss mission pack boss mission pack boss mission pack boss mission pack boss
-    mission pack boss mission pack boss mission pack...
+  DisplayName: BossyBot
+  Description: Not my first boss.
   GeneratorSetting:
     TimeLimit: 120
     NumStrikes: 3
@@ -43,5 +40,5 @@ MonoBehaviour:
       ComponentTypes: 
       SpecialComponentType: 0
       ModTypes:
-      - SimpleBoss
+      - SimpleBossNot
   PacingEventsEnabled: 1
