@@ -3,8 +3,8 @@
   "BossStatus": "FullBoss",
   "Compatibility": "Compatible",
   "DefuserDifficulty": "Easy",
-  "Description": "Every time a module is solved, press the button. Tags: boss-module, button, simpleton, push, black-background",
-  "ExpertDifficulty": "VeryEasy",
+  "Description": "Remember Simple but you use a number and the modules on the bomb. Tags: Not-Module, Boss, Button, Number, Solves",
+  "ExpertDifficulty": "Easy",
   "Ignore": [
     "+SolvesAtEnd",
     "\"14\"",
@@ -32,17 +32,17 @@
     "\"Ültimate Custom Night\"",
     "\"The Very Annoying Button\"",
     "\"Remember Simple\"",
-    ""
+    "\"Remembern't Simple\"",
+    "\""
   ],
-  "ModuleID": "SimpleBoss",
-  "Name": "Remember Simple",
+  "ModuleID": "SimpleBossNot",
+  "Name": "Remembern't Simple",
   "Origin": "Mods",
-  "Published": "2022-02-12",
-  "Quirks": "SolvesAtEnd",
-  "SortKey": "REMEMBERSIMPLE",
-  "SourceUrl": "https://github.com/Kbushra/ktaneRememberSimple",
-  "Souvenir": { "Status": "NotACandidate" },
-  "SteamID": "2751485205",
-  "Symbol": "Rmsp",
+  "Published": "2022-02-17",
+  "Quirks": "SolvesAtEnd, TimeDependent",
+  "SortKey": "REMEMBERNTSIMPLE",
+  "SourceUrl": "https://github.com/Kbushra/ktaneSimpleBossNot",
+  "SteamID": "2756464145",
+  "Symbol": "Rmnsp",
   "Type": "Regular"
 }
