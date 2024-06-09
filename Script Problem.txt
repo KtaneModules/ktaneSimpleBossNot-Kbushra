@@ -1,0 +1,161 @@
+using System.Collections.Generic;
+using UnityEngine;
+using KModkit;
+using Newtonsoft.Json;
+using System.Linq;
+using System.Text.RegularExpressions;
+using Rnd = UnityEngine.Random;
+
+public class SimpleModuleScript : MonoBehaviour {
+
+	public KMAudio audio;
+	public KMBombInfo info;
+	public KMBossModule BossModule;
+	public KMBombModule module;
+	public KMSelectable[] button;
+	public TextMesh screen;
+	private string[] ignoredModules;
+
+	public int stageCur;
+	public int StagesTotes;
+	public int stageRand;
+	public int StageRandNum;
+	public int stageGoal;
+	public int timeCheck;
+
+	public bool _isSolved = false;
+
+	public AudioSource correct;
+
+	static int ModuleIdCounter;
+	int ModuleId;
+
+	void Awake()
+	{
+		ModuleId = ModuleIdCounter++;
+
+		foreach (KMSelectable button in button)
+		{
+			KMSelectable pressedButton = button;
+			button.OnInteract += delegate () { buttonPress(pressedButton); return false; };
+		}
+	}
+
+	void Start()
+	{
+
+		if (ignoredModules == null) 
+		{
+			ignoredModules = BossModule.GetIgnoredModules ("Remember Simple", new string[] 
+			{
+					"14",
+					"Cruel Purgatory",
+					"Forget Enigma",
+					"Forget Everything",
+					"Forget It Not",
+					"Forget Infinity",
+					"Forget Me Later",
+					"Forget Me Not",
+					"Forget Perspective",
+					"Forget Them All",
+					"Forget This",
+					"Forget Us Not",
+					"Organization",
+					"Purgatory",
+					"Simon's Stages",
+					"Souvenir",
+					"Tallordered Keys",
+					"The Time Keeper",
+					"Timing is Everything",
+					"The Troll",
+					"Turn The Key",
+					"Übermodule",
+					"Ültimate Custom Night",
+					"The Very Annoying Button",
+					"Remember Simple",
+					"Remembern't Simple"
+			});
+
+			module.OnActivate += delegate () 
+			{ 
+				StagesTotes = info.GetSolvableModuleNames ().Where (a => !ignoredModules.Contains (a)).ToList ().Count;
+				if (StagesTotes > 0) 
+				{
+					Log ("Yes Stages");
+				} 
+				else 
+				{
+					Log ("No Stages");
+					module.HandlePass ();
+				}
+			};
+		}
+		stageRand = Random.Range (1, StagesTotes);
+		StageRandNum = Random.Range (1, 100);
+	}
+
+	void FixedUpdate()
+	{
+		stageCur = info.GetSolvedModuleNames ().Where (a => !ignoredModules.Contains (a)).ToList ().Count;
+
+		stageGoal = (StagesTotes + StageRandNum) % 10;
+		timeCheck = (int) info.GetTime () % 10;
+
+		if (stageRand == stageCur) 
+		{
+			screen.text = StageRandNum.ToString ();
+		}
+		else 
+		{
+			screen.text = "";
+		}
+	}
+
+	public void buttonPress(KMSelectable pressedButton)
+	{
+		GetComponent<KMAudio>().PlayGameSoundAtTransformWithRef(KMSoundOverride.SoundEffect.ButtonPress, transform);
+		int buttonPosition = new int();
+		for(int i = 0; i < button.Length; i++)
+		{
+			if (pressedButton == button[i])
+			{
+				buttonPosition = i;
+				break;
+			}
+		}
+
+		if (_isSolved == false) 
+		{
+			switch (buttonPosition) 
+			{
+			case 0:
+				if (stageCur == StagesTotes)
+				{
+					if (stageGoal == timeCheck)
+					{
+						Log ("Boss defeated..");
+						module.HandlePass ();
+					}
+					else
+					{
+						Debug.LogFormat ("You weren't supposed to press the button with this time. The seconds goal is {0}", stageGoal);
+						module.HandleStrike ();
+					}
+				}
+				else 
+				{
+					Log ("The modules haven't been solved yet...");
+					module.HandleStrike ();
+				}
+				break;
+			}
+		}
+	}
+
+
+
+	void Log(string message)
+	{
+		Debug.LogFormat("[Remembern't Simple #{0}] {1}", ModuleId, message);
+	}
+}
