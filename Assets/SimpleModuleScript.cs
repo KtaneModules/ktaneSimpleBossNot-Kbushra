@@ -169,37 +169,43 @@ public class SimpleModuleScript : MonoBehaviour {
 		Debug.LogFormat("[Remembern't Simple #{0}] {1}", ModuleId, message);
 	}
 
+    //twitch plays
 	#pragma warning disable 414
-    private string TwitchHelpMessage = "!{0} press # [presses button at specified time].";
+    private readonly string TwitchHelpMessage = @"!{0} press <#> [Presses the button when the last digit of the bomb's timer is '#']";
 	#pragma warning restore 414
-	IEnumerator ProcessTwitchCommand(string command)
-	{
+    IEnumerator ProcessTwitchCommand(string command)
+    {
         string[] parameters = command.Split(' ');
-
-        if (parameters[0] == "press") 
+		if (Regex.IsMatch(parameters[0], @"^\s*press\s*$", RegexOptions.IgnoreCase | RegexOptions.CultureInvariant))
 		{
-			if (parameters.Length < 2) { yield return "sendtochaterror Too little parameters!"; yield break; }
-			else if (parameters.Length > 2) { yield return "sendtochaterror Too many parameters!"; yield break; }
-			else
+			if (parameters.Length > 2)
+				yield return "sendtochaterror Too many parameters!";
+			else if (parameters.Length == 2)
 			{
-				int number;
-
-				if (!int.TryParse(parameters[1], out number))
-				{ yield return "sendtochaterror 2nd parameter not a number!"; yield break; }
-				else
+				int temp = -1;
+				if (!int.TryParse(parameters[1], out temp))
 				{
-					while (timeCheck != int.Parse(parameters[1])) yield return "trycancel";
-					button[0].OnInteract();
+					yield return "sendtochaterror The specified number '" + parameters[1] + "' is invalid!";
 					yield break;
 				}
+				if (temp < 0 || temp > 9)
+				{
+					yield return "sendtochaterror The specified number '" + parameters[1] + "' is out of range 0-9!";
+					yield break;
+				}
+				yield return null;
+				while (temp != timeCheck) yield return "trycancel Halted waiting to press the button due to a cancel request!";
+				button[0].OnInteract();
 			}
+			else yield return "sendtochaterror Too little parameters!";
 		}
-		else { yield return "sendtochaterror Not a viable command!"; yield break; }
-	}
-	IEnumerator TwitchHandleForcedSolve() 
-	{
-		while (stageGoal != timeCheck || stageCur != StagesTotes) yield return true;
-		button[0].OnInteract();
-		yield break;
-	}
+		else yield return "sendtochaterror Parameter not valid!";
+    }
+
+    IEnumerator TwitchHandleForcedSolve()
+    {
+        while (StagesTotes == 0 || stageCur != StagesTotes) yield return true;
+        while (timeCheck != stageGoal) yield return true;
+        button[0].OnInteract();
+    }
 }
